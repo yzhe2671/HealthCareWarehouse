@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>HealthCare Analytics</title>
+
+         <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/icon.css">
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>HealthCare Analytics</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p th:text="'Hi, '+${username}" style="font-size:25px"></p>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-user">&nbsp;</span>Your Account</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li><a href="#">Account Detail</a></li>
+                            <li><a href="#">Account Modification</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-search">&nbsp;</span>Analysis</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a th:href="@{/patientoverview}">Patient Overview</a></li>
+                            <li><a th:href="@{habitanalysis}">Habit Analysis</a></li>
+                            <li><a th:href="@{/druganalysis}">Drug Usage Analysis</a></li>
+                        </ul>
+                        <a href="#" ><span class="glyphicon glyphicon-cloud-upload ">&nbsp;</span>Manage your dataset</a>
+                        
+                    </li>
+                    <li>
+                        <a th:href="@{/prediction}"><span class="glyphicon glyphicon-heart-empty ">&nbsp;</span>Disease prediction</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-earphone ">&nbsp;</span>Contact us</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
+                    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span>Menu Bar</span>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                              
+                              
+                              
+                               <li> <button type="button" class="btn btn-info btn-lg, margin-right:10px">
+                                   <span class="glyphicon glyphicon-home">&nbsp;</span><a th:href="@{/}">Home page
+                                   </a></li></button>
+                                   
+                                   
+                                   
+                                <li>&nbsp;</li>
+                                
+                           
+                                <li> <button type="button" class="btn btn-info btn-lg, margin-left:10px">
+                                   <span class="glyphicon glyphicon-log-out">&nbsp;</span><a th:href="@{/user/logout}">Sign out
+                                   </a></li></button>
+                                
+                           
+                       
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+<div class="row">
+        <div class="col-md-12"><h1><font face="verdana" size="8" color="gray">Patient Data Overview</font></h1><br></div>
+
+</div>
+<div class="row">
+ <div class="col-md-4">
+ <div class="row">
+  <div class="col-md-12">
+      <div class="panel panel-default">
+            <div class="panel-body">
+            <div class= "row">
+             <div class="col-md-4">
+             	<div class="round round-lg blue">
+                <span class="glyphicon glyphicon-user"></span>
+            </div>
+             </div>
+            <div class="col-md-8">
+      	  <p style="text-align: center"><font size="4" >Total number of patients:</font></p>
+          <h1 style="text-align: center">
+          <font class="timer" id="count-number"  data-speed="1500" size="6"   th:text="${number}"></font>
+          </h1>
+
+   		</div>
+   		</div>
+   </div>
+   </div>
+    </div>
+    <div class="col-md-12">
+      <div class="panel panel-default">
+      <div class="panel-body">
+       <div class="row">
+       <div class="col-md-4">
+             	<div class="round round-lg orange">
+                <span class="glyphicon glyphicon-hourglass"></span>
+            </div>
+             </div>
+       <div class="col-md-8">
+           <p style="text-align: center"><font size="4" >Average age of <span th:text="${disease}"/> patient:</font></p>     
+          <h1 style="text-align: center"><!-- <font size="6" th:text="${age}" ></font></h1> -->
+  <font class="timer" id="count-number"  data-speed="1500" size="6"   th:text="${age}"></font>  </h1>
+  
+  
+  
+  
+   </div>
+   </div>
+   </div>
+   </div>
+    </div>
+
+
+    <div class="col-md-12">
+      <div class="panel panel-default">
+            <div class="panel-body">
+             <div class="row">
+             <div class="col-md-4">
+             	<div class="round round-lg green">
+                <span class="glyphicon glyphicon-stats"></span>
+            </div>
+             </div>
+             <div class="col-md-8">     
+          <p style="text-align: center"><font size="4" >Percentage of <span th:text="${disease}"/> in all patients:</font></p>
+          <h1 style="text-align: center"> <font class="timer" id="count-number"  data-speed="1500" size="6"  th:text="${strokepercentage}" ></font>%
+     
+          
+          </div>    
+          </div>
+   </div>
+   </div>
+  </div>
+  </div>
+  </div>
+  <div class="col-md-8">
+<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:18px">
+  		Number of <span th:text="${disease}"/> patient from countries
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div2">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>  
+  	</div>
+  </div>
+
+ <div class="row">
+  <div class="col-md-5" >
+  	<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:18px">
+  		Patients from different age group
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>
+  </div>
+  <div class="col-md-7" >
+  	<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:18px">
+  	Number of Male and Female patient
+  	  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div1">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>
+  </div>
+    </div>
+               <div class="row form-group"></div>
+              <br/>
+              <br/>
+
+
+<div class="row">
+  <div class="col-md-6"></div>
+  <div class="col-md-6"></div>
+            </div>
+   <div class="row form-group"></div>
+
+
+
+        </div>
+      </div>
+        
+
+
+
+
+
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="/js/bootstrap-filestyle.min.js"> </script>
+         <!-- <script type="text/javascript" src="/js/googlecharts.js"></script>  -->
+         <script th:inline="javascript">
+         /*<![CDATA[*/
+
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+             
+             $.ajax({
+					url:'agegroup',
+					dataType:'JSON',
+					success: function(result){
+					      google.charts.load('current', {packages:['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawageChart(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'gendergroup',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawgenderChart(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'racegroup',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['geochart'],
+								'mapsApiKey':'AIzaSyBzJ4qiKehLqOeXeVbsXGPq_JCQKD1OgOY'});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawraceChart(result);
+					      });
+
+					}
+				});
+         });
+
+function drawageChart(result){
+     		var data= new google.visualization.DataTable();
+     		data.addColumn('string','agegroup');
+     		data.addColumn('number', 'patientnumber');
+     		var dataArray = [];
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.indicator, obj.value ]);	
+     		});
+     		data.addRows(dataArray);
+     		
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     'legend': {'position': 'bottom'},
+                     vAxis: {
+                         minValue: 0,
+                       }
+     		};
+     		
+             var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+             chart.draw(data,options); 
+     		
+     		
+     	}
+     	
+     	function drawgenderChart(result){
+     		
+     		var dataArray = [];
+     		dataArray.push(['gender','number of '+[[${disease}]],{role:'style'}]);
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.element, obj.number, obj.style ]);	
+     		});
+     		var data= new google.visualization.arrayToDataTable(dataArray);
+     		
+     		var view = new google.visualization.DataView(data);
+     	      view.setColumns([0, 1,
+     	                       { calc: "stringify",
+     	                         sourceColumn: 1,
+     	                         type: "string",
+     	                         role: "annotation" },
+     	                       2]);
+     	      
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     vAxis: {
+                         minValue: 0,
+                       }
+                    };
+     		
+             var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+             chart.draw(view,options); 
+     		
+     		
+     	}
+     	
+			function drawraceChart(result){
+     		
+     		var dataArray = [];
+     		dataArray.push(['Country','number of patient']);
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.indicator, obj.value]);	
+     		});
+     		var data= new google.visualization.arrayToDataTable(dataArray);
+     		     	      	      
+     		var options = {
+                     'height':450,
+                     'chartArea': {'width': '100%', 'height': '80%'},                    
+                    };
+     		
+             var chart = new google.visualization.GeoChart(document.getElementById('chart_div2'));
+             chart.draw(data,options); 
+     		
+     		
+     	}
+			
+			
+			
+			//动态数字
+			
+			
+			$.fn.countTo = function(a) {
+			    a = a || {};
+			    return $(this).each(function() {
+			        var c = $.extend({},
+			        $.fn.countTo.defaults, {
+			            from: $(this).data("from"),
+			            to: $(this).text(),
+			            speed: $(this).data("speed"),
+			            refreshInterval: $(this).data("refresh-interval"),
+			            decimals: $(this).data("decimals")
+			        },
+			        a);
+			        var h = Math.ceil(c.speed / c.refreshInterval),
+			        i = (c.to - c.from) / h;
+			        var j = this,
+			        f = $(this),
+			        e = 0,
+			        g = c.from,
+			        d = f.data("countTo") || {};
+			        f.data("countTo", d);
+			        if (d.interval) {
+			            clearInterval(d.interval)
+			        }
+			        d.interval = setInterval(k, c.refreshInterval);
+			        b(g);
+			        function k() {
+			            g += i;
+			            e++;
+			            b(g);
+			            if (typeof(c.onUpdate) == "function") {
+			                c.onUpdate.call(j, g)
+			            }
+			            if (e >= h) {
+			                f.removeData("countTo");
+			                clearInterval(d.interval);
+			                g = c.to;
+			                if (typeof(c.onComplete) == "function") {
+			                    c.onComplete.call(j, g)
+			                }
+			            }
+			        }
+			        function b(m) {
+			            var l = c.formatter.call(j, m, c);
+			            f.html(l)
+			        }
+			    })
+			};
+			$.fn.countTo.defaults = {
+			    from: 0,
+			    to: 50,
+			    speed: 1000,
+			    refreshInterval: 100,
+			    decimals: 0,
+			    formatter: formatter,
+			    onUpdate: null,
+			    onComplete: null
+			};
+			function formatter(b, a) {
+			    return b.toFixed(0)
+			}
+			$("#count-number").data("countToOptions", {
+			    formatter: function(b, a) {
+			        return b.toFixed(0).replace(/\B(?=(?:\d{3})+(?!\d))/g, ",")
+			    }
+			});
+			$(".timer").each(count);
+			function count(a) {
+			    var b = $(this);
+			    a = $.extend({},
+			    a || {},
+			    b.data("countToOptions") || {});
+			    b.countTo(a)
+			};
+			
+			
+			
+			
+			
+			
+             
+		       /*]]>*/
+         </script>
+    </body>
+</html>
+

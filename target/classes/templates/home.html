@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	 <!--Load the AJAX API-->
+	 
+	 <style>
+			h1 {font-size:250%;}
+             h2 {font-size:250%;}
+             p {font-size:150%}	 
+             span{font-size:200%}
+	 </style>
+	 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    $(document).ready(
+			function(){
+				$.ajax({
+					url:'agegroup',
+					dataType:'JSON',
+					success: function(result){
+					      google.charts.load('current', {packages:['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawChart(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'averageHDL',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart', 'line']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawHDLChart(result);
+					      });
+
+					}
+				});
+				
+			});
+	
+	function drawChart(result){
+		var data= new google.visualization.DataTable();
+		data.addColumn('string','agegroup');
+		data.addColumn('number', 'patientnumber');
+		var dataArray = [];
+		$.each(result, function(i,obj){
+			dataArray.push([ obj.indicator, obj.value ]);	
+		});
+		data.addRows(dataArray);
+		
+		var options = {'title':'stroke patients from age groups',
+                'width':800,
+                'height':600};
+		
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+        chart.draw(data,options); 
+		
+		
+	}
+	
+	function drawHDLChart(result){
+		var data= new google.visualization.DataTable();
+		data.addColumn('string','time of test');
+		data.addColumn('number', 'HDL');
+		var dataArray = [];
+		$.each(result, function(i,obj){
+			dataArray.push([ obj.indicator, obj.value ]);	
+		});
+		data.addRows(dataArray);
+		
+		var options = {'title':'Hemoglobin',
+                'width':1300,
+                'height':600,
+                backgroundColor: '#f1f8e9',
+                hAxis: {
+                    title: 'test time'
+                  },
+                  vAxis: {
+                    title: 'test value'
+                  }};
+		
+        var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+        chart.draw(data,options); 
+		
+		
+	}
+
+    		
+    		/*google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+            
+            function drawChart(){
+            var jsonData = $.ajax({
+    			  url: 'agegroup',
+    			  dataType:'json',
+    			  sync: false
+    	          });
+            alert(jsonData);
+	          
+			  var data = new google.visualization.DataTable();
+            data.addColumn('string', 'ageGroup');
+            data.addColumn('number', 'patientnumber');
+            var dataArray= new Array();
+            //$.each(jsonData, function(i, obj){
+            //	dataArray.push([ obj.ageGroup, obj.patientnumber]);
+            //});
+            //data.addRows(dataArray);
+            
+			  
+              var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+              var options = {'title':'How Much Pizza I Ate Last Night',
+                      'width':400,
+                      'height':300};
+              chart.draw(dataArray,options);  }
+            
+            */
+            </script>
+	
+     <title>Health Data</title>
+    </head>
+  
+  <body>
+    <h1 text-align: center>Patients Information overview</h1>
+    <table>
+     <tr>
+       <td>
+      	<div class="container" >
+     	  <p>Total number of patients: <span th:text="${number}"/></p>
+     	  <p>Rate of stroke in test patients: <span th:text="${strokepercentage}"/>%</p>
+     	  <p>Average age of stroke patient: <span th:text="${age}"/></p>
+     	  <br/>
+     	  <h2>Check patient's test result</h2>
+     	  <form th:action="@{/featurelist}" method="get">
+            <input type="text" th:name="id" th:placeholder="patientid" />
+            <div>
+               <button type="submit">Check</button>
+           </div>
+			</form> 
+    	 </div>
+    	</td>
+     
+     
+       <td>
+       		<div id="chart_div"></div>
+       	</td>
+     </tr>
+     <tr>
+     	<td>
+     		  <div id="chart_div1"></div>
+     		
+     	</td>
+     </tr>
+     </table>
+    
+
+  </body>
+</html>

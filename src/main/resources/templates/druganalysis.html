@@ -1,0 +1,728 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>HealthCare Analytics</title>
+
+         <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/icon.css">
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>HealthCare Analytics</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p th:text="'Hi, '+${username}" style="font-size:25px"></p>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false">Your Account</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li><a href="#">Account Detail</a></li>
+                            <li><a href="#">Account Modification</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false">Analysis</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a th:href="@{/patientoverview}">Patient Overview</a></li>
+                            <li><a th:href="@{habitanalysis}">Habit Analysis</a></li>
+                            <li><a th:href="@{/druganalysis}">Drug Usage Analysis</a></li>
+                        </ul>
+                        <a href="#" >Manage your dataset</a>
+                        
+                    </li>
+                    <li>
+                        <a href="#">Disease prediction</a>
+                    </li>
+                    <li>
+                        <a href="#">Contact us</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
+                    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span>Menu Bar</span>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li><a th:href="@{/}">Home page</a></li>
+                                <li><a th:href="@{/user/logout}">Sign out</a></li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+<!--<div class="row">
+    
+  <div class="col-md-4">Kerala's Forest Cover Increased by 2.7% in 2017</div>
+  <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
+</div> -->
+<div class="row">
+        <div class="col-md-12"><h1><font face="verdana" size="8" color="gray">Drug usage and <span th:text="${disease}"/></font></h1></div>
+</div>
+<br>
+<p>You can check the relationship between drug usage duration of certain drug and lab result of four most important <span th:text="${disease}"></span> indicators. Please select the a drug and its duration below.</p> 
+<div class="line"></div>
+<div class="row">
+ <form id="drugform">
+	<div class="col-md-4">
+	<label for="sel1">Drug name:</label>
+  <select class="form-control" id="drug">
+    <option selected>Please select a drug</option>
+    <option value="Aspirin">Aspirin</option>
+    <option value="Warfarin">Warfarin</option>
+    <option value="Clopidogrel">Clopidogrel</option>
+  </select>
+	</div>
+	<div class="col-md-4">
+	<label for="sel1">Time of usage:</label>
+  <select class="form-control" id="duration">
+    <option selected>Please select duration of usage</option>
+    <option value="1months">1< months and <=3 months</option>
+    <option value="3months">3< months and <=7 months</option>
+    <option value="7months">7< months and <=12 months</option>
+  </select>
+	</div>
+	<div class="col-md-3">
+		<input type="submit" value="Check" class="btn btn-info btn-lg" style="margin-top:10px"/>
+	</div>	
+</form>
+</div>
+<div><p id="reminder" style="color:#FF4500"></p></div>
+<br>
+<br>
+<div class="row">
+ <div class="col-md-6">
+ 
+  		<p id="HBA1Cheading" style="color:black"></p> 	
+  		 <div id="chart_div1">
+  		
+  		</div>
+  	
+  </div>
+  <div class="col-md-6">
+  		<p id="Glucoseheading" style="color:black"></p>
+  		 <div id="chart_div2">
+  		
+  		</div>
+  	
+  	</div>
+  </div>
+<br>
+<br>
+ <div class="row">
+  <div class="col-md-6" >
+  		<p id="Cholestheading" style="color:black"></p>
+  		 <div id="chart_div3">
+  		
+  		</div>
+  	
+  </div>
+  <div class="col-md-6" >
+  		<p id="TRIheading" style="color:black"></p>
+  		 <div id="chart_div4">
+  		
+  	
+  </div>
+    </div>
+    </div>
+               <div class="row form-group"></div>
+              <br/>
+
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-7"></div>
+            </div>
+   <div class="row form-group"></div>
+
+
+
+        </div>
+      </div>
+        
+
+
+
+
+
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="/js/bootstrap-filestyle.min.js"> </script>
+         <!-- <script type="text/javascript" src="/js/googlecharts.js"></script>  -->
+         <script type="text/javascript">
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+             
+			$('#drugform').submit(function(event){
+            	 
+            	 event.preventDefault();
+            	 var drugname=$('#drug').val();
+            	 var duration=$('#duration').val();
+            	 
+            	 
+            	 var HBA1Curl;
+            	 var GLUCOSEurl;
+            	 var CHOLESTurl;
+            	 var TRIurl;
+            	 var HBA1C;
+            	 var GLUCOSE;
+            	 var CHOLEST;
+            	 var TRI;
+            	
+            	
+				
+            	 if(drugname=="Aspirin"&&duration=="1months"){
+            		 HBA1Curl="chartdata/Ahba1c1-3";
+            	     GLUCOSEurl="chartdata/Aglucose1-3";
+            	     CHOLESTurl="chartdata/Acholest1-3";
+            	     TRIurl="chartdata/Atri1-3";
+            	     HBA1C=drawAhba1c;
+            	     GLUCOSE=drawAglucose;
+            	     CHOLEST=drawAcholest;
+            	     TRI=drawAtri;
+            	    
+            	 }else if(drugname=="Aspirin"&&duration=="3months"){
+            		 HBA1Curl="chartdata/Ahba1c3-7";
+            	     GLUCOSEurl="chartdata/Aglucose3-7";
+            	     CHOLESTurl="chartdata/Acholest3-7";
+            	     TRIurl="chartdata/Atri3-7";
+            	     HBA1C=drawAhba1c;
+            	     GLUCOSE=drawAglucose;
+            	     CHOLEST=drawAcholest;
+            	     TRI=drawAtri;
+            	   
+            	 }else if(drugname=="Aspirin"&&duration=="7months"){
+            		 HBA1Curl="chartdata/Ahba1c7-12";
+            	     GLUCOSEurl="chartdata/Aglucose7-12";
+            	     CHOLESTurl="chartdata/Acholest7-12";
+            	     TRIurl="chartdata/Atri7-12";
+            	     HBA1C=drawAhba1c;
+            	     GLUCOSE=drawAglucose;
+            	     CHOLEST=drawAcholest;
+            	     TRI=drawAtri;
+            	   
+            	 }else if(drugname=="Warfarin"&&duration=="1months"){
+            		 HBA1Curl="chartdata/Whba1c1-3";
+            	     GLUCOSEurl="chartdata/Wglucose1-3";
+            	     CHOLESTurl="chartdata/Wcholest1-3";
+            	     TRIurl="chartdata/Wtri1-3";
+            	     HBA1C=drawWhba1c;
+            	     GLUCOSE=drawWglucose;
+            	     CHOLEST=drawWcholest;
+            	     TRI=drawWtri;
+            	   
+            	 }else if(drugname=="Warfarin"&&duration=="3months"){
+            		 HBA1Curl="chartdata/Whba1c3-7";
+            	     GLUCOSEurl="chartdata/Wglucose3-7";
+            	     CHOLESTurl="chartdata/Wcholest3-7";
+            	     TRIurl="chartdata/Wtri3-7";
+            	     HBA1C=drawWhba1c;
+            	     GLUCOSE=drawWglucose;
+            	     CHOLEST=drawWcholest;
+            	     TRI=drawWtri;
+            	   
+            	 }else if(drugname=="Warfarin"&&duration=="7months"){
+            		 HBA1Curl="chartdata/Whba1c7-12";
+            	     GLUCOSEurl="chartdata/Wglucose7-12";
+            	     CHOLESTurl="chartdata/Wcholest7-12";
+            	     TRIurl="chartdata/Wtri7-12";
+            	     HBA1C=drawWhba1c;
+            	     GLUCOSE=drawWglucose;
+            	     CHOLEST=drawWcholest;
+            	     TRI=drawWtri;
+            	   
+            	 } else if(drugname=="Clopidogrel"&&duration=="1months"){
+            		 HBA1Curl="chartdata/Chba1c1-3";
+            	     GLUCOSEurl="chartdata/Cglucose1-3";
+            	     CHOLESTurl="chartdata/Ccholest1-3";
+            	     TRIurl="chartdata/Ctri1-3";
+            	     HBA1C=drawChba1c;
+            	     GLUCOSE=drawCglucose;
+            	     CHOLEST=drawCcholest;
+            	     TRI=drawCtri;
+            	  
+            	 }else if(drugname=="Clopidogrel"&&duration=="3months"){
+            		 HBA1Curl="chartdata/Chba1c3-7";
+            	     GLUCOSEurl="chartdata/Cglucose3-7";
+            	     CHOLESTurl="chartdata/Ccholest3-7";
+            	     TRIurl="chartdata/Ctri3-7";
+            	     HBA1C=drawChba1c;
+            	     GLUCOSE=drawCglucose;
+            	     CHOLEST=drawCcholest;
+            	     TRI=drawCtri;
+            	 
+            	 }else if(drugname=="Clopidogrel"&&duration=="7months"){
+            		 HBA1Curl="chartdata/Chba1c7-12";
+            	     GLUCOSEurl="chartdata/Cglucose7-12";
+            	     CHOLESTurl="chartdata/Ccholest7-12";
+            	     TRIurl="chartdata/Ctri7-12";
+            	     HBA1C=drawChba1c;
+            	     GLUCOSE=drawCglucose;
+            	     CHOLEST=drawCcholest;
+            	     TRI=drawCtri;
+            	     
+            	 }else{ $('#reminder').html("Please select drug and duration");
+            	 return;}
+            	 $('#reminder').html("");
+            	 $('#HBA1Cheading').html("HBA1C level compare to average");
+            	 $('#Glucoseheading').html("Glucose level compare to average");
+            	 $('#Cholestheading').html("Cholest level compare to average");
+            	 $('#TRIheading').html("TRI level compare to average");
+
+
+
+
+            	 
+			
+             
+             $.ajax({
+					url:HBA1Curl,
+					dataType:'JSON',
+					success: function(result){
+					      google.charts.load('current', {packages:['corechart','line']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  HBA1C(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:GLUCOSEurl,
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart','line']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  GLUCOSE(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:CHOLESTurl,
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart','line']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  CHOLEST(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url: TRIurl,
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart','line']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  TRI(result);
+					      });
+
+					}
+				});
+			});
+         });
+
+
+     	
+			function drawAhba1c(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Aspirin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'HBA1C'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawAglucose(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Aspirin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Glucose'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawAcholest(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Aspirin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Cholest'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div3'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawAtri(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Aspirin');
+    			data.addColumn('number',' Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'TRI'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div4'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawWhba1c(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Warfarin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'HBA1C'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawWglucose(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Warfarin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Glucose'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawWcholest(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Warfarin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Cholest'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div3'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawWtri(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Warfarin');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'TRI'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div4'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawChba1c(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Clopidogrel');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'HBA1C'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div1'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawCglucose(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Clopidogrel');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+  			        legend: { position: 'top' },
+                    'height':300,
+                    'chartArea': {'width': '80%'},
+                    backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Glucose'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div2'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawCcholest(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Clopidogrel');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+    					 legend: { position: 'top' },
+                         'height':300,
+                         'chartArea': {'width': '80%'},
+                         backgroundColor: '#fafafa', 
+                          vAxis: {
+                            title: 'Cholest'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div3'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+			
+			function drawCtri(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','Lab result at different months');
+    			data.addColumn('number', 'Patients taking Clopidogrel');
+    			data.addColumn('number','Average of all patients');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {
+    			          curveType: 'function',
+  			          legend: { position: 'top' },
+                        'height':300,
+                        'chartArea': {'width': '80%'},
+                        backgroundColor: '#fafafa',              
+                          vAxis: {
+                            title: 'TRI'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('chart_div4'));
+                chart.draw(data,options); 
+                
+			
+    			
+    			
+    		}
+     	
+
+     	
+
+	
+     	
+		
+             
+            
+         </script>
+    </body>
+</html>

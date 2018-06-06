@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>HealthCare Analytics</title>
+
+         <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/icon.css">
+    </head>
+    <body>
+
+
+
+        <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>HealthCare Analytics</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p th:text="'Hi, '+${username}" style="font-size:25px"></p>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-user">&nbsp;</span>Your Account</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li><a href="#">Account Detail</a></li>
+                            <li><a href="#">Account Modification</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-search">&nbsp;</span>Analysis</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a th:href="@{/patientoverview}">Patient Overview</a></li>
+                            <li><a th:href="@{habitanalysis}">Habit Analysis</a></li>
+                            <li><a th:href="@{/druganalysis}">Drug Usage Analysis</a></li>
+                        </ul>
+                        <a href="#" ><span class="glyphicon glyphicon-cloud-upload ">&nbsp;</span>Manage your dataset</a>
+                        
+                    </li>
+                    <li>
+                        <a th:href="@{/prediction}"><span class="glyphicon glyphicon-heart-empty ">&nbsp;</span>Disease prediction</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-earphone ">&nbsp;</span>Contact us</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
+                    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span>Menu Bar</span>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                                <li> <button type="button" class="btn btn-info btn-lg, margin-right:10px">
+                                   <span class="glyphicon glyphicon-home">&nbsp;</span><a th:href="@{/}">Home page
+                                   </a></li></button>
+                                   
+                                   
+                                   
+                                <li>&nbsp;</li>
+                                
+                           
+                                <li> <button type="button" class="btn btn-info btn-lg, margin-left:10px">
+                                   <span class="glyphicon glyphicon-log-out">&nbsp;</span><a th:href="@{/user/logout}">Sign out
+                                   </a></li></button>
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+<!--<div class="row">
+    
+  <div class="col-md-4">Kerala's Forest Cover Increased by 2.7% in 2017</div>
+  <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
+</div> -->
+<div class="row">
+        <div class="col-md-7"><h1><font face="verdana" size="8" color="gray">Habit and <span th:text="${disease}"/></font></h1></div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4"><a th:href="@{/advancedhabitanalysis}" class="btn btn-info btn-lg" style="margin-top:30px">Advanced Habit Analysis</a>
+        </div>
+</div>
+<br/>
+<div class="row">
+ <div class="col-md-6">
+ <div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:14px">
+  		Percentage of <span th:text="${disease}"/> among smoking patients
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div1">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div> 
+  </div>
+  
+   <div class="col-md-6">
+<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:14px">
+  		Percentage of <span th:text="${disease}"/> among patients who use alcohol
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div2">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>  
+  	</div> 
+  
+   <!--  <div class="col-md-6" >
+  	<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:14px">
+  		Percentage of <span th:text="${disease}"/> among patients who use alcohol
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div8">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>
+  </div> -->
+  
+  
+  
+  
+  
+  </div> 
+			
+			
+			
+			
+			
+
+ <div class="row">
+  <div class="col-md-6" >
+  	<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:14px">
+  		Percentage of <span th:text="${disease}"/> among patients who consume sodas
+  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div3">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>
+  </div>
+  <div class="col-md-6" >
+  	<div class="panel panel-default">
+  	<div class="panel-heading" style="font-size:14px">
+  		Percentage of <span th:text="${disease}"/> among patients who do exercise
+  	  	</div>
+  		<div class="panel-body">
+  		 <div id="chart_div4">
+  		 </div>
+  		
+  		</div>
+  	
+  	</div>
+  </div>
+    </div>
+               <div class="row form-group"></div>
+              <br/>
+
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-7"></div>
+            </div>
+   <div class="row form-group"></div>
+
+
+
+        </div>
+      </div>
+        
+
+
+
+
+
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="/js/bootstrap-filestyle.min.js"> </script>
+         <!-- <script type="text/javascript" src="/js/googlecharts.js"></script>  -->
+         <script type="text/javascript">
+         /*<![CDATA[*/
+
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+             
+             $.ajax({
+					url:'chartdata/smoking',
+					dataType:'JSON',
+					success: function(result){
+					      google.charts.load('current', {packages:['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawsmokingChart(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'chartdata/alcohol',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawalcoholChart(result);
+					      });
+
+					}
+				});
+				
+				
+				$.ajax({
+					url:'chartdata/alcohol',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawalcoholChart1(result);
+					      });
+
+					}
+				});
+				
+				
+				
+				
+				
+				
+				$.ajax({
+					url:'chartdata/softdrink',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawsoftdrinkChart(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'chartdata/exercise',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawexerciseChart(result);
+					      });
+
+					}
+				});
+         });
+
+
+     	
+     	function drawsmokingChart(result){
+     		
+     		var dataArray = [];
+     		dataArray.push(['smoking','Percentage of [[${disease}]] patient','Percentage of non-[[${disease}]] patient']);
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+     		});
+     		var data= new google.visualization.arrayToDataTable(dataArray);
+     		
+     	      
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     'legend': {'position': 'top'},
+                     vAxis: {
+                         minValue: 0,
+                       }
+                    };
+     		
+             var chart = new google.visualization.ColumnChart(document.getElementById('chart_div1'));
+             chart.draw(data,options); 
+     		
+     		
+     	}
+     	
+function drawalcoholChart(result){
+     		
+     		var dataArray = [];
+     		dataArray.push(['Alcohol use','Percentage of [[${disease}]] patient','Percentage of non-[[${disease}]] patient']);
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+     		});
+     		var data= new google.visualization.arrayToDataTable(dataArray);
+     		
+     	      
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     'legend': {'position': 'top'},
+                     vAxis: {
+                         minValue: 0,
+                       }
+                    };
+     		
+             var chart = new google.visualization.ColumnChart(document.getElementById('chart_div2'));
+             chart.draw(data,options); 
+     		
+     		
+     	}
+     	
+/* function drawalcoholChart1(result){
+		var data= new google.visualization.DataTable();
+		data.addColumn('string','Alcohol use');
+		data.addColumn('number', 'Percentage of [[${disease}]] patient');
+		var dataArray = [];
+		$.each(result, function(i,obj){
+			dataArray.push([ obj.indicator, obj.value ]);	
+		});
+		data.addRows(dataArray);
+		
+		var options = {
+             'height':300,
+             'chartArea': {'width': '100%', 'height': '80%'},
+             'legend': {'position': 'bottom'},
+             vAxis: {
+                 minValue: 0,
+               }
+		};
+		
+     var chart = new google.visualization.PieChart(document.getElementById('chart_div8'));
+     chart.draw(data,options); 
+		
+		
+	}	 */
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+     	
+function drawsoftdrinkChart(result){
+		
+		var dataArray = [];
+		dataArray.push(['Sodas drinking','Percentage of [[${disease}]] patient','Percentage of non-[[${disease}]] patient']);
+		$.each(result, function(i,obj){
+			dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+		});
+		var data= new google.visualization.arrayToDataTable(dataArray);
+		
+	      
+		var options = {
+             'height':300,
+             'chartArea': {'width': '100%', 'height': '80%'},
+             'legend': {'position': 'top'},
+             vAxis: {
+                 minValue: 0,
+               }
+            };
+		
+     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div3'));
+     chart.draw(data,options); 
+		
+		
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+function drawexerciseChart(result){
+		
+		var dataArray = [];
+		dataArray.push(['Exercise','Percentage of [[${disease}]] patient','Percentage of non-[[${disease}]] patient']);
+		$.each(result, function(i,obj){
+			dataArray.push([ obj.element, obj.number1, obj.number2 ]);	
+		});
+		var data= new google.visualization.arrayToDataTable(dataArray);
+		
+	      
+		var options = {
+             'height':300,
+             'chartArea': {'width': '100%', 'height': '80%'},
+             'legend': {'position': 'top'},
+             vAxis: {
+                 minValue: 0,
+               }
+            };
+		
+     var chart = new google.visualization.ColumnChart(document.getElementById('chart_div4'));
+     chart.draw(data,options); 
+		
+		
+	}
+     	
+		
+             
+			/*]]>*/
+         </script>
+    </body>
+</html>

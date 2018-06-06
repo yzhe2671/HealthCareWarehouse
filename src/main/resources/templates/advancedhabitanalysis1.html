@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+        <title>HealthCare Analytics</title>
+
+         <!-- Bootstrap CSS CDN -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <!-- Our Custom CSS -->
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="stylesheet" href="/css/icon.css">
+    </head>
+    <body>
+
+
+
+    <div class="wrapper">
+            <!-- Sidebar Holder -->
+            <nav id="sidebar">
+                <div class="sidebar-header">
+                    <h3>HealthCare Analytics</h3>
+                </div>
+
+                <ul class="list-unstyled components">
+                    <p th:text="'Hi, '+${username}" style="font-size:25px"></p>
+                    <li class="active">
+                        <a href="#homeSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-user">&nbsp;</span>Your Account</a>
+                        <ul class="collapse list-unstyled" id="homeSubmenu">
+                            <li><a href="#">Account Detail</a></li>
+                            <li><a href="#">Account Modification</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                      <a href="#pageSubmenu" data-toggle="collapse" aria-expanded="false"><span class="glyphicon glyphicon-search">&nbsp;</span>Analysis</a>
+                        <ul class="collapse list-unstyled" id="pageSubmenu">
+                            <li><a th:href="@{/patientoverview}">Patient Overview</a></li>
+                            <li><a th:href="@{habitanalysis}">Habit Analysis</a></li>
+                            <li><a th:href="@{/druganalysis}">Drug Usage Analysis</a></li>
+                        </ul>
+                        <a href="#" ><span class="glyphicon glyphicon-cloud-upload ">&nbsp;</span>Manage your dataset</a>
+                        
+                    </li>
+                    <li>
+                        <a th:href="@{/prediction}"><span class="glyphicon glyphicon-heart-empty ">&nbsp;</span>Disease prediction</a>
+                    </li>
+                    <li>
+                        <a href="#"><span class="glyphicon glyphicon-earphone ">&nbsp;</span>Contact us</a>
+                    </li>
+                </ul>
+
+                <ul class="list-unstyled CTAs">
+                    <li><a href="https://bootstrapious.com/tutorial/files/sidebar.zip" class="download">Download source</a></li>
+                    <li><a href="https://bootstrapious.com/p/bootstrap-sidebar" class="article">Back to article</a></li>
+                </ul>
+            </nav>
+
+            <!-- Page Content Holder -->
+            <div id="content">
+
+                <nav class="navbar navbar-default">
+                    <div class="container-fluid">
+
+                        <div class="navbar-header">
+                            <button type="button" id="sidebarCollapse" class="btn btn-info navbar-btn">
+                                <i class="glyphicon glyphicon-align-left"></i>
+                                <span>Menu Bar</span>
+                            </button>
+                        </div>
+
+                        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                            <ul class="nav navbar-nav navbar-right">
+                            <li> <button type="button" class="btn btn-info btn-lg, margin-right:10px">
+                                   <span class="glyphicon glyphicon-home">&nbsp;</span><a th:href="@{/}">Home page
+                                   </a></li></button>
+                                   
+                                   
+                                   
+                                <li>&nbsp;</li>
+                                
+                           
+                                <li> <button type="button" class="btn btn-info btn-lg, margin-left:10px">
+                                   <span class="glyphicon glyphicon-log-out">&nbsp;</span><a th:href="@{/user/logout}">Sign out
+                                   </a></li></button>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+<!--<div class="row">
+    
+  <div class="col-md-4">Kerala's Forest Cover Increased by 2.7% in 2017</div>
+  <div class="col-md-4 col-md-offset-4">.col-md-4 .col-md-offset-4</div>
+</div>
+<div class="row">
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+  <div class="col-md-3 col-md-offset-3">.col-md-3 .col-md-offset-3</div>
+</div>
+<div class="row">
+  <div class="col-md-6 col-md-offset-3">.col-md-6 .col-md-offset-3</div>
+</div> -->
+<div class="row">
+        <div class="col-md-12"><h1><font face="verdana" size="8" color="gray">Habit and <span th:text="${disease}"/></font></h1></div>
+</div>
+<br/>
+<div class="row">
+ <div class="col-md-12">
+ <p>In this page you can check the percentage of stroke patient among those with multiple habits, for example, both smoking and drinking.</p>
+  <p>The pie chart on the right hand side shows the percentage of stroke patient among all patient, you can do the comparison.</p>
+  	 <p>Please select the checkboxes below to investigate the habits your are interested.</p>
+  	
+ 
+ </div>
+ </div>
+ <div class="line"></div>
+<br/>
+<p id="reminder" style="color:#FF4500"><p/>
+<div class="row">
+
+<form id="habitform">
+	 <div class="col-md-5">
+    <label class="checkbox-inline">
+      <input type="checkbox" value="" id="checkbox1"><font size="4">Smoking</font>
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" value="" id="checkbox2"><font size="4">Drinking</font>
+    </label>
+    <label class="checkbox-inline">
+      <input type="checkbox" value="" id="checkbox3"><font size="4">Sodas beverage</font>
+    </label>
+        </div>
+    <div class="col-md-3">
+    <input type="submit" class="btn btn-info btn-lg" value="Check" style="margin-top:-10px">
+    </div>
+  </form> 
+ 
+  </div>
+<br/>
+<br/>
+ <div class="row">
+  <div class="col-md-6">
+  	<div id="chart_div1"></div>
+  </div>
+  <div class="col-md-6">
+   <div id="chart_div2"></div>
+  </div>
+  
+    </div>
+               <div class="row form-group"></div>
+              <br/>
+
+
+<div class="row">
+  <div class="col-md-1"></div>
+  <div class="col-md-7"></div>
+            </div>
+   <div class="row form-group"></div>
+
+
+
+        </div>
+      </div>
+        
+
+
+
+
+
+        <!-- jQuery CDN -->
+         <script src="https://code.jquery.com/jquery-1.12.0.min.js"></script>
+             <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+         <!-- Bootstrap Js CDN -->
+         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+         <script type="text/javascript" src="/js/bootstrap-filestyle.min.js"> </script>
+         <!-- <script type="text/javascript" src="/js/googlecharts.js"></script>  -->
+         <script type="text/javascript">
+         /*<![CDATA[*/
+         $(document).ready(function () {
+             $('#sidebarCollapse').on('click', function () {
+                 $('#sidebar').toggleClass('active');
+             });
+             
+             
+             $('#habitform').submit(function(event){
+            	 
+            	 event.preventDefault();
+                 var url;
+            	 if($('#checkbox1').is(':checked')&&!$('#checkbox2').is(':checked')&&!$('#checkbox3').is(':checked')){
+                	 url="chartdata/smokingpercentagepiechart";
+                	 
+                 }
+                 else if(!$('#checkbox1').is(':checked')&&$('#checkbox2').is(':checked')&&!$('#checkbox3').is(':checked')){
+                	 url="chartdata/drinkingpercentagepiechart";
+
+                 }
+                 else if(!$('#checkbox1').is(':checked')&&!$('#checkbox2').is(':checked')&&$('#checkbox3').is(':checked')){
+                	 url="chartdata/softdrinkpercentagepiechart";
+
+                 }else if($('#checkbox1').is(':checked')&&$('#checkbox2').is(':checked')&&!$('#checkbox3').is(':checked')){
+                	 url="chartdata/smokingdrinkingpiechart";
+
+                 }else if(!$('#checkbox1').is(':checked')&&$('#checkbox2').is(':checked')&&$('#checkbox3').is(':checked')){
+                	 url="chartdata/drinkingsodaspiechart";
+
+                 }else if($('#checkbox1').is(':checked')&&!$('#checkbox2').is(':checked')&&$('#checkbox3').is(':checked')){
+                	 url="chartdata/smokingsodaspiechart";
+
+                 }else if($('#checkbox1').is(':checked')&&$('#checkbox2').is(':checked')&&$('#checkbox3').is(':checked')){
+                	 url="chartdata/smokingdrinkingsodaspiechart";
+
+                 }else { 
+                	 $('#reminder').html("you should at least select one habit");
+        		 return;}
+            	 
+            	 $('#reminder').html("");
+
+            	 
+            	 
+             $.ajax({
+					url: url,
+					dataType:'JSON',
+					success: function(result){
+					      google.charts.load('current', {packages:['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawsChart1(result);
+					      });
+
+					}
+				});
+				
+				$.ajax({
+					url:'chartdata/strokepercentagepiechart',
+					dataType:'JSON',
+					success: function(result){
+							google.charts.load('current', {packages: ['corechart']});
+					      google.charts.setOnLoadCallback(function(){
+					    	  drawChart2(result);
+					      });
+
+					}
+				});
+				
+             });
+			
+         });
+
+
+     	
+     	function drawsChart1(result){
+     		
+     		var data= new google.visualization.DataTable();
+     		data.addColumn('string','ifdisease');
+     		data.addColumn('number', 'patientnumber');
+     		var dataArray = [];
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.indicator, obj.value ]);	
+     		});
+     		data.addRows(dataArray);
+     		
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     'legend': {'position': 'bottom'},
+                     'title':'Percentage of [[${disease}]] with the habit',
+                     backgroundColor: '#fafafa',
+                     vAxis: {
+                         minValue: 0,
+                       }
+     		};
+     		
+             var chart = new google.visualization.PieChart(document.getElementById('chart_div1'));
+             chart.draw(data,options);
+     		
+     		
+     	}
+     	
+		function drawChart2(result){
+     		
+			var data= new google.visualization.DataTable();
+     		data.addColumn('string','ifdisease');
+     		data.addColumn('number', 'patientnumber');
+     		var dataArray = [];
+     		$.each(result, function(i,obj){
+     			dataArray.push([ obj.indicator, obj.value ]);	
+     		});
+     		data.addRows(dataArray);
+     		
+     		var options = {
+                     'height':300,
+                     'chartArea': {'width': '100%', 'height': '80%'},
+                     'legend': {'position': 'bottom'},
+                     backgroundColor: '#fafafa',
+                     'title':'Percentage of [[${disease}]] in all patients',
+                     vAxis: {
+                         minValue: 0,
+                       }
+     		};
+     		
+             var chart = new google.visualization.PieChart(document.getElementById('chart_div2'));
+             chart.draw(data,options);
+     		
+     		
+     	}
+		
+	       /*]]>*/ 			                      
+         </script>
+    </body>
+</html>

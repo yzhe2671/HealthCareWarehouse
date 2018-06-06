@@ -1,0 +1,34 @@
+.round {
+    display: inline-block;
+    height: 30px;
+    width: 30px;
+    line-height: 30px;
+    -moz-border-radius: 50px;
+    border-radius: 50px;
+    background-color: #222;    
+    color: #FFF;
+    text-align: center;  
+}
+
+.round.round-lg {
+    height: 80px;
+    width: 80px;
+    line-height: 90px;
+    -moz-border-radius: 50px;
+    border-radius: 10x;
+    font-size: 3.5em;
+    margin-top:20px;
+    margin-left:15px;
+}
+
+.round.blue {
+    background-color: #3EA6CE;
+}
+
+.round.orange {
+    background-color: #FF6701;
+}
+
+.round.green {
+    background-color: #42A129;
+}

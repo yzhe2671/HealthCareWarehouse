@@ -1,0 +1,121 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	 <!--Load the AJAX API-->
+	 <style>
+	              p {font-size:150%}	
+	              .goback{margin-left: 100px}
+	             .features{margin-left: 30px}
+	              
+	               
+	 </style>
+	 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script th:inline="javascript">
+    /*<![CDATA[*/
+    			    var message =/*[[${patientid}]]*/  'default';
+
+    		$(document).ready(
+
+    				function (){
+    					$.ajax({
+    						url:'HB',
+    						dataType:'JSON',
+    						  data:{id:message},
+    						success: function(result){
+    								google.charts.load('current', {packages: ['corechart', 'line']});
+    						      google.charts.setOnLoadCallback(function(){
+    						    	  drawChart(result);
+    						      });
+
+    						}
+    					});
+    					
+    					
+    					
+    				});
+    		
+    		function drawHDLChart(result){
+    			var data= new google.visualization.DataTable();
+    			data.addColumn('string','time of test');
+    			data.addColumn('number', 'Hemoglobin');
+    			var dataArray = [];
+    			$.each(result, function(i,obj){
+    				dataArray.push([ obj.indicator, obj.value ]);	
+    			});
+    			data.addRows(dataArray);
+    			
+    			var options = {'title':'Hemoglobin',
+                        'width':1300,
+                        'height':600,
+                        backgroundColor: '#f1f8e9',
+                        hAxis: {
+                            title: 'test time'
+                          },
+                          vAxis: {
+                            title: 'test value'
+                          }};
+    			
+                var chart = new google.visualization.LineChart(document.getElementById('HB_chart'));
+                chart.draw(data,options); 
+    			
+    			
+    		}
+
+    		
+    		/*]]>*/
+    		</script>
+	
+     <title>Health Data</title>
+    </head>
+  
+  <body>
+     <table>
+        <tr>
+        <div class="features">
+            <td>
+              <h1 text-align: center>Test result history, patient id: <span th:text="${patientid}"></span></h1>
+           </td>
+           <td>
+           		<p>                        </p>
+           </td>
+              <td>
+  					<button><a th:href="@{/checkpatientHB(id=${patientid})}">Hemoglobin</a></button>	     
+  		     </td>
+  		     <td>
+			  		<button><a th:href="@{/checkpatientPlt(id=${patientid})}">Platelet</a></button>	     
+			</td>
+			<td>
+			  		<button><a th:href="@{/checkpatientGlu(id=${patientid})}">Glucose</a></button>	     
+			</td>
+			<td>
+			  		<button><a th:href="@{/checkpatientCho(id=${patientid})}">Cholest</a></button>	     
+			</td>
+			<td>
+				 <div class="goback">
+				  		<button><a th:href="@{/}">Go back to home Page</a></button>
+				 </div>
+			</td>
+			</div>
+         </tr>
+           </table>
+         
+        
+             <div id="HB_chart" >
+               <p>The patient does not have tree times tests on this feature.</p>
+            </div>
+         
+     
+ 
+    
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  </body>
+</html>

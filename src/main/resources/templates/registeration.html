@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+	<script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	 <script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+	
+	
+     <title>Health Data</title>
+    </head>
+  
+  <body>
+
+<form class="form-horizontal" th:action="@{/user/create}" th:object="${user}" method="POST" >
+  <fieldset>
+    <div id="legend" >
+      <legend class="" style= "margin-left: 30px;">Sign up as User</legend>
+    </div>
+    <div class="control-group">
+      <!-- Username -->
+      <p style="margin-left:180px;"><span th:text="${error}" style="color:#FF4500;"></span></p>
+      <label class="control-label"  for="username">Username</label>
+      <div class="controls">
+        <input type="text" id="username" name="username" placeholder="" class="input-xlarge"
+        th:field="*{username}" pattern=".{6,}" title="Please enter minimum of 6 characters username" required>
+        <p class="help-block">Username can contain any letters or numbers, without spaces</p>
+      </div>
+    </div>
+    
+     <div class="control-group">
+      <!-- Password-->
+      <label class="control-label" for="password">Password</label>
+      <div class="controls">
+        <input type="password" id="password" name="password" placeholder="" class="input-xlarge"
+        th:field="*{user_password}" pattern=".{8,}" title="Please enter minimum of 8 characters password" required>
+        <p class="help-block">Password should be at least 8 characters</p>
+      </div>
+    </div>
+    
+      <div class="control-group">
+      <!-- Password -->
+      <label class="control-label"  for="Firstname">Firstname</label>
+      <div class="controls">
+        <input type="text" id="firstname" name="password_confirm" placeholder="" class="input-xlarge"
+        th:field="*{firstname}" title ="Please enter a firstname" required>
+        <p class="help-block">Please enter your first name</p>
+      </div>
+    </div>
+    
+    <div class="control-group">
+      <!-- Password -->
+      <label class="control-label"  for="Lastname">Lastname</label>
+      <div class="controls">
+        <input type="text" id="lastname" name="lastname" placeholder="" class="input-xlarge"
+        th:field="*{lastname}" title="Please enter a lastname" required>
+        <p class="help-block">Please enter your last name</p>
+      </div>
+    </div>
+ 
+    <div class="control-group">
+      <!-- E-mail -->
+      <label class="control-label" for="email">E-mail</label>
+      <div class="controls">
+        <input type="text" id="email" name="email" class="input-xlarge"
+         title="please enter an Email adress" th:field="*{emailadress}"required>
+        <p class="help-block">Please provide your E-mail</p>
+      </div>
+    </div>
+ 	<table>
+ 	<tr>
+ 	<td>
+    <div class="control-group" style="margin-right: -60px;">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-primary" >Sign up</button>
+      </div>
+    </div>
+    </td>
+    <td>
+     <div class="control-group">
+      <!-- Button -->
+      <div class="controls">
+        <button class="btn btn-primary" type="reset" >Reset</button>
+      </div>
+    </div>
+    </td>
+    </tr>
+    </table>
+  </fieldset>
+</form>
+    <!-- scripts -->
+     <!--  <script type="text/javascript">
+	  var username=$("#username").val();
+      alert(username);
+      $("#submituser").click=(function (){
+    	  alert("hello");
+			$.ajax({
+				url:'user/existence',
+				dataType:'JSON',
+					Type:'POST',
+				  data:{id:username},
+				success: function(result){
+					alert(result);
+					if(result=="exist"){
+						alert("this username has been registerd, please change aother one");
+					}
+					else{
+						$("#userform").submit();
+					}
+						
+				      }
+
+				});
+			});
+	 
+	 </script> -->
+  </body>
+</html>
